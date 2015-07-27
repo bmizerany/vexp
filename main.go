@@ -319,7 +319,10 @@ func (p *Package) load(stk *importStack, bp *build.Package, err error) *Package 
 		return p
 	}
 
-	importPaths := p.Imports
+	importPaths := make([]string, 0)
+	importPaths = append(importPaths, p.Imports...)
+	importPaths = append(importPaths, p.XTestImports...)
+
 	// Packages that use cgo import runtime/cgo implicitly.
 	// Packages that use cgo also import syscall implicitly,
 	// to wrap errno.
