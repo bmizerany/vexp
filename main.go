@@ -49,6 +49,10 @@ func main() {
 	ok := true
 	for _, pkg := range deps {
 		if pkg.Error != nil {
+			if pkg.Error.isImportCycle {
+				// An import cycle will be filtered below by isSeen
+				continue
+			}
 			fmt.Fprintln(os.Stderr, pkg.Error)
 			ok = false
 		}
