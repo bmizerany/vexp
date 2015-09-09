@@ -59,6 +59,17 @@ func TestFindDeps(t *testing.T) {
 		},
 		{
 			root: "p",
+			want: "q q/internal/i q/internal/j",
+			tab: `
+				p/p.go:            package p; import _ "q"
+				q/q.go:            package q;
+				q/q_test.go:       package q; import _ "q/internal/i"
+				q/internal/i/i.go: package i; import _ "q/internal/j"
+				q/internal/j/j.go: package j;
+			`,
+		},
+		{
+			root: "p",
 			want: "d", // d has Error set
 			tab: `
 				p/p.go: package p; import _ "d"
